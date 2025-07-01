@@ -1,12 +1,14 @@
 import abc
 
+
 class Solver(abc.ABC):
     def __init__(self, func):
-        # Eqn to solve
+        # Eqn to solve (expects a lambda function)
+        #  f(x,y) = y'(x)
         self.f = func
 
-        self.coefficients = []
-        self.solution = lambda: None
+        # stores the iterative solutions of the form (x, y(x), y'(x))
+        self.iterations: list[tuple] = []
 
     @abc.abstractmethod
     def solve(self):
