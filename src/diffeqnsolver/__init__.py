@@ -1,7 +1,6 @@
-from . import solver, eulersolver, taylorsolver
-from .solver import Solver
 from .eulersolver import EulerSolver
+from .solver import Solver
 from .taylorsolver import TaylorSolver
 
-__all__ = ["Solver", "EulerSolver", "TtaylorSolver"]
+__all__ = ["EulerSolver", "Solver", "TaylorSolver"]
 
