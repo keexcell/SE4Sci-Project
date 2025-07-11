@@ -1,11 +1,11 @@
-from diffeqnsolver import Solver, EulerSolver
+from diffeqnsolver import Solver, TaylorSolver
 import math
 import abc
 
 def check_tuple_close(tuple1, tuple2):
     for i in range(len(tuple1)):
         if not math.isclose(tuple1[i], tuple2[i]):
-            return False 
+            return False
         else:
             return True
 
@@ -18,18 +18,18 @@ def check_tuple_far(tuple1, tuple2):
 
 def angle_maker(step, angle_length = 2*math.pi, num_steps = 100):
     step_size = angle_length / num_steps
-    angle = step * step_size 
+    angle = step * step_size
     return angle
 
 def test_simple_trig():
     '''
-    Just a simple f(x,y) = y'(x) = cos(x) 
+    Just a simple f(x,y) = y'(x) = cos(x)
     Expect the answer to match y(x) = sin(x)
     x_0 = 0 means y(x_0) = y_0 = 0, go a full period to 2pi
     Each step will be about 0.0628 rad
     '''
 
-    y_prime = EulerSolver(lambda x, y : math.cos(x))
+    y_prime = TaylorSolver(lambda x, y : math.cos(x))
     y_prime.solve(0.0, 0.0, 2*math.pi)
     y_prime_solutionlist = y_prime.iterations
 
@@ -46,6 +46,7 @@ def test_simple_trig():
     assert check_tuple_far(y_prime_solutionlist[0], (angle_at_step52, math.sin(angle_at_step52), math.cos(angle_at_step52)))
 
 
+
 def test_twovar_trig():
     '''
     Now trying 2 variables, still simpler: f(x,y) = y'(x) = y*tan(x)
@@ -54,7 +55,7 @@ def test_twovar_trig():
     Do 500 steps so each step will be about 0.0126 rad
     '''
 
-    y_prime = EulerSolver(lambda x, y : y*math.tan(x))
+    y_prime = TaylorSolver(lambda x, y : y*math.tan(x))
     y_prime.solve(0.0, 1.0, 2*math.pi, 500)
     y_prime_solutionlist = y_prime.iterations
 
