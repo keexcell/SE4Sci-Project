@@ -11,7 +11,7 @@ class Solver(abc.ABC):
         self.iterations: list[tuple] = []
 
         # infinity threshold
-        self.inf_threshold = 1e23
+        self.inf_threshold = 1e10
 
     @abc.abstractmethod
     def solve(self):
