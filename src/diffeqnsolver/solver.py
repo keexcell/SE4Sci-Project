@@ -10,6 +10,9 @@ class Solver(abc.ABC):
         # stores the iterative solutions of the form (x, y(x), y'(x))
         self.iterations: list[tuple] = []
 
+        # infinity threshold
+        self.inf_threshold = 1e10
+
     @abc.abstractmethod
     def solve(self):
         pass
