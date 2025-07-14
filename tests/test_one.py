@@ -1,6 +1,7 @@
 from diffeqnsolver import Solver, EulerSolver
 import math
 import abc
+import matplotlib.pyplot as plt
 
 def check_tuple_close(tuple1, tuple2):
     for i in range(len(tuple1)):
@@ -45,6 +46,8 @@ def test_simple_trig():
 
     assert check_tuple_far(y_prime_solutionlist[0], (angle_at_step52, math.sin(angle_at_step52), math.cos(angle_at_step52)))
 
+    y_prime.visualize("Eueler")
+
 
 def test_twovar_trig():
     '''
@@ -57,6 +60,8 @@ def test_twovar_trig():
     y_prime = EulerSolver(lambda x, y : y*math.tan(x))
     y_prime.solve(0.0, 1.0, 2*math.pi, 500)
     y_prime_solutionlist = y_prime.iterations
+
+    y_prime.visualize("Eueler")
 
     angle_at_step35 = angle_maker(35, num_steps = 500)
     angle_at_step252 = angle_maker(252, num_steps = 500)
