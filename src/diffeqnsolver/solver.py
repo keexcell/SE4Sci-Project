@@ -1,6 +1,6 @@
 import abc
 import numpy as np
-
+import matplotlib.pyplot as plt
 
 class Solver(abc.ABC):
     def __init__(self, func):
@@ -25,21 +25,18 @@ class Solver(abc.ABC):
         Args: 
             title: string 
                 Name of the method used
-            x : array
-            y : array
         """
 
         # Function Values: 
-        x = self.iterations[:,0]
-        y = self.iterations[:,1]
-        z = self.iterations[:, -1]
+        x_vals, y_vals, y_prime_vals = zip(*self.iterations)
 
         plt.figure(figsize=(8, 6))
-        ax = fig.add_subplot(projection = '3d') # For graphing f(x,y) = z
-        plt.plot(x, y, z)
+        plt.plot(x_vals, y_vals, label = "y(x)")
+        plt.plot(x_vals, y_prime_vals, label = "y'(x)")
         plt.xlabel('x')
-        plt.ylabel('y')
+        plt.ylabel('Values')
         plt.title("Solution to differential equation using " + title + " Method")
+        plt.legend()
         plt.grid(True)
         plt.show()
 
