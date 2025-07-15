@@ -67,6 +67,9 @@ def test_simple_trig():
     y_prime.solve(0.0, 0.0, 2*math.pi, num_steps)
     y_prime_solutionlist = y_prime.iterations
 
+    assert type(y_prime_solutionlist[0]) == tuple
+    assert type(y_prime_solutionlist[0][0]) == float
+
     for step in range(num_steps):
         angle = angle_maker(step, num_steps = num_steps)
         assert check_tuple_close(y_prime_solutionlist[step], (angle, math.sin(angle), math.cos(angle)), rel_tol)
