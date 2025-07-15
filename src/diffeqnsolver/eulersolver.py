@@ -39,4 +39,4 @@ class EulerSolver(Solver):
                 raise ValueError(f"Function is diverging near {x_i}")
             if abs(yp_i) > self.inf_threshold:
                 raise ValueError(f"Derivative is diverging near {x_i}")
-            self.iterations.append((x_i, y_i, self.f(x_i, y_i)))
+            self.iterations.append((x_i, y_i, yp_i))
