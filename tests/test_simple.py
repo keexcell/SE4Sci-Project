@@ -68,3 +68,5 @@ def test_simple_trig():
     for num in range(num_steps):
         angle = angle_maker(num, num_steps = num_steps)
         assert check_tuple_close(y_prime_solutionlist[num], (angle, math.sin(angle), math.cos(angle)), tol)
+
+    y_prime.visualize("Euler")
