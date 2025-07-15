@@ -1,50 +1,11 @@
 from .solver import Solver
 import math
 
-def derivative(f, a:float, h:float = 1e-05):
-    """
-    Computes the derivative of a function using the central numerical
-    method of differentiation. 
-
-    Args:
-        f: function
-            Function to be differentiated
-        a:float
-            Point around which to find the derivative of the function.
-        h:float
-            Step size around the point of differentiation, a.
-            (Default: 1e-05)
-    """
-
-    return (f(a+h) - f(a-h)) / (2*h)
-
-def nthDerivative(f, a:float, n:int, h:float = 1e-05):
-    """
-    Computes the nth derivative of a function using the central numerical
-    method of differentiation.
-
-    Args:
-        f:function to be differentiated
-        a:float
-            Point around which to find the derivative of the function.
-        n:int
-            Order of derivative.
-        h:float
-            Step size around the point of differentiation, a.
-            (Default: 1e-05)
-    """
-    if n <= 0:
-        raise NotImplementedError("Please use a positive order, n.")
-    if n == 1:
-        return derivative(f, a)
-    return ( nthDerivative(f, a+h, n-1) - nthDerivative(f, a-h, n-1) ) / (2*h)
-
-
 class TaylorSolver(Solver):
     def __init__(self, func):
         super().__init__(func)
 
-    def solve(self, x_0: float, y_0: float, x_n: float, num_steps: int = 100, order: int = 3):
+    def solve(self, x_0: float, y_0: float, x_n: float, derivatives=[], num_steps: int = 100):
         """
         Implements the Taylor method to solve functions of the form y'(x) = f(x,y)
         for y(x). Numerical approximations are made for y(x) for x in the range
@@ -62,15 +23,12 @@ class TaylorSolver(Solver):
             num_steps: int
                 Number of subintervals in x.
                 (Default: 100)
-            order: int
-                Highest order term kept in the Taylor Series expansion.
-                (Default: 3)
+            derivatives: array
+                Derivates of the function, given by the user. 
         """
-        if order == 1:
-            raise NotImplementedError("""Order of 1 is just the Euler method.
-                                      Please use that solver instead!""")
-        elif order <= 0:
-            raise NotImplementedError("Please input a positive order.")
+        if len(derivatives) == 0:
+            raise NotImplementedError("""Without derivatives, the Taylor method
+            converges to the Euler method. Please use that solver instead!""")
 
         self.iterations = [(x_0, y_0, self.f(x_0, y_0))]
 
@@ -82,8 +40,8 @@ class TaylorSolver(Solver):
             x_i += step
 
             Tn = self.iterations[-1][2]
-            for i in range(2,order+1):
-                Tn += math.pow(step, i-1)/(math.factorial(i)) * nthDerivative(f=self.f, a=x_i, n=i-1)
+            for i in range(len(derivatives)):
+                Tn += math.pow(step, i-1)/(math.factorial(i)) * derivatives[i](x_i)
     
             y_i += step * Tn
 
