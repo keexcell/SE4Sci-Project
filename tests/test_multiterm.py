@@ -35,6 +35,8 @@ def test_separable():
         y = 2 + math.exp(-x**3)
         assert check_tuple_close(y_prime_solutionlist[step], (x, y, 6*(x**2) - 3*(x**2)*(y)), rel_tol)
 
+    y_prime.visualize("Euler")
+
 
 #@pytest.mark.parametrize('solver_to_test', ['Euler', 'Taylor'])
 #def test_separable(solver_to_test):
@@ -65,4 +67,6 @@ def test_separable():
         x = ((xn - x0)/num_steps)*step
         y = 2 + math.exp(-x**3)
         assert check_tuple_close(y_prime_solutionlist[step], (x, y, 6*(x**2) - 3*(x**2)*(y)), rel_tol)
+
+    y_prime.visualize("Euler", "$6x^2 - 3yx^2$")
 
