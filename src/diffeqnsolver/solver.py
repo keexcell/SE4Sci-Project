@@ -18,13 +18,15 @@ class Solver(abc.ABC):
     def solve(self):
         pass
 
-    def visualize(self, title: str):
+    def visualize(self, title: str, function: str):
         """
         Visualizes the results of the solved differential equation
 
         Args: 
             title: string 
                 Name of the method used
+            function: string 
+                definition of the f(x,y) function used for labelling
         """
 
         # Function Values: 
@@ -32,7 +34,7 @@ class Solver(abc.ABC):
 
         plt.figure(figsize=(8, 6))
         plt.plot(x_vals, y_vals, label = "y(x)")
-        plt.plot(x_vals, y_prime_vals, label = "y'(x)")
+        plt.plot(x_vals, y_prime_vals, label = "y'(x) = " + function)
         plt.xlabel('x')
         plt.ylabel('Values')
         plt.title("Solution to differential equation using " + title + " Method")
