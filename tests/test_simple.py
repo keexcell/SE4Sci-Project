@@ -53,13 +53,14 @@ def test_simple_trig(solver_to_test):
         y_prime = EulerSolver(lambda x, y : math.cos(x))
         rel_tol = 0.005
         y_prime.solve(0.0, 0.0, 2*math.pi, num_steps)
+        y_prime_solutionlist = y_prime.iterations
+        y_prime.visualize("Euler", "cos(x)")
     elif solver_to_test == 'Taylor':
         y_prime = TaylorSolver(lambda x, y : math.cos(x))
         rel_tol = 0.005 #tol can be diff btwn Taylor and Euler
         y_prime.solve(0.0,0.0,2*math.pi,num_steps,[lambda x, y : -math.sin(x), lambda x, y : -math.cos(x)])
-    y_prime_solutionlist = y_prime.iterations
-
-    y_prime.visualize("Euler", "cos(x)")
+        y_prime_solutionlist = y_prime.iterations
+        y_prime.visualize("Taylor", "cos(x)")
 
     assert type(y_prime_solutionlist[0]) == tuple
     assert type(y_prime_solutionlist[0][0]) == float
