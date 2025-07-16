@@ -25,6 +25,8 @@ def test_separable(solver_to_test):
         y_prime = EulerSolver(lambda x, y : 6*(x**2) - 3*(x**2)*(y))
         rel_tol = 0.005
         y_prime.solve(x0, y0, xn, num_steps)
+        y_prime.visualize("Euler", "$6x^2 - 3x^2y$", "$2+e^{-x^3}$")
+
     elif solver_to_test == 'Taylor':
         def f(x,y):
             return 6*(x**2) - 3*(x**2)*y
@@ -34,6 +36,7 @@ def test_separable(solver_to_test):
                                               18*(x**4)+9*(x**4)*y,
                                               lambda x,y: 12 - 6*y - 6*x*f(x,y)
                                               - 36*(x**3) + 9*(x**4)*f(x,y)])
+        y_prime.visualize("Taylor", "$6x^2 - 3x^2y$", "$2+e^{-x^3}$")
 
     y_prime_solutionlist = y_prime.iterations
 
