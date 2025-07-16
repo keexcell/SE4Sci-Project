@@ -18,7 +18,7 @@ class Solver(abc.ABC):
     def solve(self):
         pass
 
-    def visualize(self, title: str, function: str):
+    def visualize(self, title: str, function: str, solution=None):
         """
         Visualizes the results of the solved differential equation
 
@@ -31,9 +31,13 @@ class Solver(abc.ABC):
 
         # Function Values: 
         x_vals, y_vals, y_prime_vals = zip(*self.iterations)
+        if solution is None: 
+            label = "y(x)"
+        else: 
+            label = f"y(x) = {solution}"
 
         plt.figure(figsize=(8, 6))
-        plt.plot(x_vals, y_vals, label = "y(x)")
+        plt.plot(x_vals, y_vals, label = label)
         plt.plot(x_vals, y_prime_vals, label = "y'(x) = " + function)
         plt.xlabel('x')
         plt.ylabel('Values')
