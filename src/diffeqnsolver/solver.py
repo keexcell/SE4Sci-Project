@@ -1,6 +1,7 @@
 import abc
-import numpy as np
+
 import matplotlib.pyplot as plt
+
 
 class Solver(abc.ABC):
     def __init__(self, func):
@@ -22,25 +23,24 @@ class Solver(abc.ABC):
         """
         Visualizes the results of the solved differential equation
 
-        Args: 
-            title: string 
+        Args:
+            title: string
                 Name of the method used
-            function: string 
+            function: string
                 definition of the f(x,y) function used for labelling
         """
 
-        # Function Values: 
+        # Function Values:
         x_vals, y_vals, y_prime_vals = zip(*self.iterations)
 
         plt.figure(figsize=(8, 6))
-        plt.plot(x_vals, y_vals, label = "y(x)")
-        plt.plot(x_vals, y_prime_vals, label = "y'(x) = " + function)
-        plt.xlabel('x')
-        plt.ylabel('Values')
+        plt.plot(x_vals, y_vals, label="y(x)")
+        plt.plot(x_vals, y_prime_vals, label="y'(x) = " + function)
+        plt.xlabel("x")
+        plt.ylabel("Values")
         plt.title("Solution to differential equation using " + title + " Method")
         plt.legend()
         plt.grid(True)
         plt.show()
 
         print("Plots produced")
-
