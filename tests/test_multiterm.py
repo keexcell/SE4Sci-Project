@@ -26,10 +26,14 @@ def test_separable(solver_to_test):
         rel_tol = 0.005
         y_prime.solve(x0, y0, xn, num_steps)
     elif solver_to_test == 'Taylor':
-        x0 = 0.1
-        y_prime = TaylorSolver(lambda x, y : 6*(x**2) - 3*(x**2)*(y))
+        def f(x,y):
+            return 6*(x**2) - 3*(x**2)*y
+        y_prime = TaylorSolver(f)
         rel_tol = 0.005 #tolerance can be different between Taylor and Euler
-        y_prime.solve(x0, y0, xn, num_steps, [lambda x, y : 4/x - 2*y/x])
+        y_prime.solve(x0, y0, xn, num_steps, [lambda x, y : 12*x - 6*x*y -
+                                              18*(x**4)+9*(x**4)*y,
+                                              lambda x,y: 12 - 6*y - 6*x*f(x,y)
+                                              - 36*(x**3) + 9*(x**4)*f(x,y)])
 
     y_prime_solutionlist = y_prime.iterations
 
