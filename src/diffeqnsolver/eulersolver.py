@@ -24,16 +24,17 @@ class EulerSolver(Solver):
                 Number of iterations to perform within the given range.
                 (Default: 100)
         """
-        self.iterations = [
-            (x_0, y_0, self.f(x_0, y_0))
-        ]
+        self.iterations = [(x_0, y_0, self.f(x_0, y_0))]
 
         x_i = x_0
         y_i = y_0
-        step = (x_n-x_0)/num_steps
+        step = (x_n - x_0) / num_steps
         for _ in range(num_steps):
             x_i += step
             y_i += step * self.iterations[-1][2]
+            yp_i = self.f(x_i, y_i)
             if abs(y_i) > self.inf_threshold:
                 raise ValueError(f"Function is diverging near {x_i}")
-            self.iterations.append((x_i, y_i, self.f(x_i, y_i)))
+            if abs(yp_i) > self.inf_threshold:
+                raise ValueError(f"Derivative is diverging near {x_i}")
+            self.iterations.append((x_i, y_i, yp_i))
