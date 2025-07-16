@@ -24,7 +24,10 @@ class TaylorSolver(Solver):
                 Number of subintervals in x.
                 (Default: 100)
             derivatives: array
-                Derivates of the function, given by the user. 
+                Implicit derivates of the function, given by the user. Must be
+                in order i.e. first derivative has 0 index in array, 2nd
+                derivative has 1 index, etc. Expects derivatives as a function
+                of x and y. 
         """
         if len(derivatives) == 0:
             raise NotImplementedError("""Without derivatives, the Taylor method
@@ -37,12 +40,12 @@ class TaylorSolver(Solver):
         step = (x_n-x_0)/num_steps
 
         for _ in range(num_steps):
-            x_i += step
-
             Tn = self.iterations[-1][2]
             for i in range(len(derivatives)):
-                Tn += math.pow(step, i-1)/(math.factorial(i)) * derivatives[i](x_i)
+                Tn += math.pow(step, i-1)/(math.factorial(i)) * derivatives[i](x_i,y_i)
     
+            x_i += step
+
             y_i += step * Tn
 
             if abs(y_i) > self.inf_threshold:
