@@ -21,16 +21,18 @@ def test_divergence(solver_to_test):
     if solver_to_test == 'Euler':
         y_prime = EulerSolver(lambda x, y : y*math.tan(x))
         rel_tol = 0.005
+        with pytest.raises(ValueError):
+            y_prime.solve(0.0, 1.0, 2*math.pi, num_steps)
+        y_prime.solve(0.0, 1.0, math.pi/3, num_steps)
     elif solver_to_test == 'Taylor':
         y_prime = TaylorSolver(lambda x, y : y*math.tan(x))
-        rel_tol = 0.005 #tol can be diff btwn Taylor and Euler  
+        rel_tol = 0.005 #tol can be diff btwn Taylor and Euler
+        with pytest.raises(ValueError):
+            y_prime.solve(0.1, 1.0, 2*math.pi, num_steps, [lambda x, y : -y*1/(math.sin(x)*math.cos(x))])
+        y_prime.solve(0.1, 1.0, math.pi/3, num_steps,[lambda x, y : -y*1/(math.sin(x)*math.cos(x))])
 
     #there's cases where cos = 0 so y = 1/0 and there will be an error
-    with pytest.raises(ValueError):
-        y_prime.solve(0.0, 1.0, 2*math.pi, num_steps)
-        
     #test if it overwrites first .solve with another. this time closed interval
-    y_prime.solve(0.0, 1.0, math.pi/3, num_steps)
     y_prime_solutionlist = y_prime.iterations
     assert math.isclose(y_prime_solutionlist[-1][0], math.pi/3)
 

@@ -16,18 +16,21 @@ def test_separable(solver_to_test):
     '''
     num_steps = 5000
 
-    if solver_to_test == 'Euler':
-        y_prime = EulerSolver(lambda x, y : 6*(x**2) - 3*(x**2)*(y))
-        rel_tol = 0.005
-    elif solver_to_test == 'Taylor':
-        y_prime = TaylorSolver(lambda x, y : 6*(x**2) - 3*(x**2)*(y))
-        rel_tol = 0.005 #tolerance can be different between Taylor and Euler
-
     x0 = 0
     y0 = 3
     #this makes C = 1
     xn = 10
-    y_prime.solve(x0, y0, xn, num_steps)
+
+    if solver_to_test == 'Euler':
+        y_prime = EulerSolver(lambda x, y : 6*(x**2) - 3*(x**2)*(y))
+        rel_tol = 0.005
+        y_prime.solve(x0, y0, xn, num_steps)
+    elif solver_to_test == 'Taylor':
+        x0 = 0.1
+        y_prime = TaylorSolver(lambda x, y : 6*(x**2) - 3*(x**2)*(y))
+        rel_tol = 0.005 #tolerance can be different between Taylor and Euler
+        y_prime.solve(x0, y0, xn, num_steps, [lambda x, y : 4/x - 2*y/x])
+
     y_prime_solutionlist = y_prime.iterations
 
     for step in range(num_steps):

@@ -5,7 +5,7 @@ class TaylorSolver(Solver):
     def __init__(self, func):
         super().__init__(func)
 
-    def solve(self, x_0: float, y_0: float, x_n: float, derivatives=[], num_steps: int = 100):
+    def solve(self, x_0: float, y_0: float, x_n: float, num_steps: int = 100,derivatives=[]):
         """
         Implements the Taylor method to solve functions of the form y'(x) = f(x,y)
         for y(x). Numerical approximations are made for y(x) for x in the range
