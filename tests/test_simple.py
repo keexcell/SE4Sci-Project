@@ -58,6 +58,8 @@ def test_simple_trig(solver_to_test):
     y_prime.solve(0.0, 0.0, 2*math.pi, num_steps)
     y_prime_solutionlist = y_prime.iterations
 
+    y_prime.visualize("Euler", "cos(x)")
+
     assert type(y_prime_solutionlist[0]) == tuple
     assert type(y_prime_solutionlist[0][0]) == float
 

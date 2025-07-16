@@ -3,6 +3,7 @@ from test_simple import check_tuple_close, angle_maker
 import pytest
 import math
 import abc
+import matplotlib.pyplot as plt
 
 
 @pytest.mark.parametrize('solver_to_test', ['Euler', 'Taylor'])
@@ -32,6 +33,8 @@ def test_divergence(solver_to_test):
     y_prime.solve(0.0, 1.0, math.pi/3, num_steps)
     y_prime_solutionlist = y_prime.iterations
     assert math.isclose(y_prime_solutionlist[-1][0], math.pi/3)
+
+    y_prime.visualize("Eueler", "ytan(x)")
 
     for step in range(num_steps):
         angle = angle_maker(step, angle_length = math.pi/3, num_steps = num_steps)
