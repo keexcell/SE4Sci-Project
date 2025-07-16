@@ -2,9 +2,10 @@
 name = "diffeqnsolver"
 version = "0.1.0"
 requires-python = ">=3.9"
+dependencies = ["matplotlib"]
 
 [dependency-groups]
-test = ["pytest"]
+test = ["pytest", "numpy"]
 dev = [
   "pre-commit",
   { include-group = "test" }

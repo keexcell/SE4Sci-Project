@@ -34,6 +34,9 @@ class EulerSolver(Solver):
         for _ in range(num_steps):
             x_i += step
             y_i += step * self.iterations[-1][2]
+            yp_i = self.f(x_i, y_i)
             if abs(y_i) > self.inf_threshold:
                 raise ValueError(f"Function is diverging near {x_i}")
-            self.iterations.append((x_i, y_i, self.f(x_i, y_i)))
+            if abs(yp_i) > self.inf_threshold:
+                raise ValueError(f"Derivative is diverging near {x_i}")
+            self.iterations.append((x_i, y_i, yp_i))
