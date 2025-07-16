@@ -34,7 +34,7 @@ def test_divergence(solver_to_test):
     y_prime_solutionlist = y_prime.iterations
     assert math.isclose(y_prime_solutionlist[-1][0], math.pi/3)
 
-    y_prime.visualize("Eueler", "ytan(x)")
+    y_prime.visualize("Euler", "ytan(x)")
 
     for step in range(num_steps):
         angle = angle_maker(step, angle_length = math.pi/3, num_steps = num_steps)
