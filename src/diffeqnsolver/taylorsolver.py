@@ -40,9 +40,9 @@ class TaylorSolver(Solver):
         step = (x_n-x_0)/num_steps
 
         for _ in range(num_steps):
-            Tn = self.iterations[-1][2]
+            yp_i = Tn = self.f(x_i, y_i)
             for i in range(len(derivatives)):
-                Tn += math.pow(step, i-1)/(math.factorial(i)) * derivatives[i](x_i,y_i)
+                Tn += math.pow(step, i+1)/(math.factorial(i+2)) * derivatives[i](x_i,y_i)
     
             x_i += step
 
@@ -50,4 +50,6 @@ class TaylorSolver(Solver):
 
             if abs(y_i) > self.inf_threshold:
                 raise ValueError(f"Function is diverging near {x_i}")
-            self.iterations.append((x_i, y_i, Tn))
+            if abs(yp_i) > self.inf_threshold:
+                raise ValueError(f"Derivative is diverging near {x_i}")
+            self.iterations.append((x_i, y_i, yp_i))
