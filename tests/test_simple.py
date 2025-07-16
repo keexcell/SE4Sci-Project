@@ -13,16 +13,8 @@ def check_tuple_close(tuple1, tuple2, rel_tol):
     for i in range(len(tuple1)):
         a = tuple1[i]
         b = tuple2[i]
-        should_be_0 = a - b
         
-        average = (a + b) / 2
-        if average == 0:
-            return "Error: Cannot calculate percentage difference because the average of the two values is zero."
-        difference = abs(a - b)
-        percent_diff = (difference / average) * 100
         if not math.isclose(a, b, rel_tol = rel_tol, abs_tol = 0.05):
-        #if not should_be_0 == pytest.approx(0, abs=tol):
-            print('Values: {} and {}  Percent Difference = {}'.format(a, b, percent_diff))
             return False
     return True
 
@@ -47,9 +39,8 @@ def angle_maker(step, angle_length = 2*math.pi, num_steps = 100):
     angle = step * step_size 
     return angle
 
-#@pytest.mark.parametrize('solver_to_test', ['Euler', 'Taylor'])
-#def test_simple_trig(solver_to_test):
-def test_simple_trig():
+@pytest.mark.parametrize('solver_to_test', ['Euler', 'Taylor'])
+def test_simple_trig(solver_to_test):
     '''
     Just a simple f(x,y) = y'(x) = cos(x) 
     Expect the answer to match y(x) = sin(x)
@@ -57,17 +48,19 @@ def test_simple_trig():
     Each step will be about 0.0628 rad 
     '''
     num_steps = 5000
-    rel_tol = 0.005
 
-    #if solver_to_test == 'Euler':
-    y_prime = EulerSolver(lambda x, y : math.cos(x))
-    #elif solver_to_test == 'Taylor':
-        #y_prime = TaylorSolver(lambda x, y : math.cos(x))
-        #rel_tol = 0.01
-    y_prime.solve(0.0, 0.0, 2*math.pi, num_steps)
-    y_prime_solutionlist = y_prime.iterations
-
-    y_prime.visualize("Euler", "cos(x)")
+    if solver_to_test == 'Euler':
+        y_prime = EulerSolver(lambda x, y : math.cos(x))
+        rel_tol = 0.005
+        y_prime.solve(0.0, 0.0, 2*math.pi, num_steps)
+        y_prime_solutionlist = y_prime.iterations
+        y_prime.visualize("Euler", "cos(x)")
+    elif solver_to_test == 'Taylor':
+        y_prime = TaylorSolver(lambda x, y : math.cos(x))
+        rel_tol = 0.005 #tol can be diff btwn Taylor and Euler
+        y_prime.solve(0.0,0.0,2*math.pi,num_steps,[lambda x, y : -math.sin(x), lambda x, y : -math.cos(x)])
+        y_prime_solutionlist = y_prime.iterations
+        y_prime.visualize("Taylor", "cos(x)")
 
     assert type(y_prime_solutionlist[0]) == tuple
     assert type(y_prime_solutionlist[0][0]) == float
