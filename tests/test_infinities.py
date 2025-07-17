@@ -17,7 +17,6 @@ def test_divergence(solver_to_test):
     Second, just go to pi/3 so its a closed interval
     """
     num_steps = 5000
-
     x0 = 0
     y0 = 1
     xn = math.pi / 3
@@ -25,12 +24,12 @@ def test_divergence(solver_to_test):
     if solver_to_test == "Euler":
         y_prime = EulerSolver(lambda x, y: y * math.tan(x))
         rel_tol = 0.005
+        # there's cases where cos = 0 so y = 1/0 and there will be an error
         with pytest.raises(ValueError):
             y_prime.solve(x0, y0, 2 * math.pi, num_steps)
+        # test if it overwrites first .solve with another. this time closed interval
         y_prime.solve(x0, y0, xn, num_steps)
-        y_prime_solutionlist = y_prime.iterations
-        assert math.isclose(y_prime_solutionlist[-1][0], xn)
-        y_prime.visualize("Euler", "ytan(x)", "1/cos(x)")
+        y_prime.visualize("Euler", "ytan(x)", r"$\frac{1}{cos(x)}$")
 
     elif solver_to_test == "Taylor":
         y_prime = TaylorSolver(lambda x, y: y * math.tan(x))
@@ -56,12 +55,10 @@ def test_divergence(solver_to_test):
                 + y * math.tan(x) * math.tan(x)
             ],
         )
-        y_prime_solutionlist = y_prime.iterations
-        assert math.isclose(y_prime_solutionlist[-1][0], xn)
-        y_prime.visualize("Taylor", "ytan(x)", "1/cos(x)")
+        y_prime.visualize("Taylor", "ytan(x)", r"$\frac{1}{cos(x)}$")
 
-    # there's cases where cos = 0 so y = 1/0 and there will be an error
-    # test if it overwrites first .solve with another. this time closed interval
+    y_prime_solutionlist = y_prime.iterations
+    assert math.isclose(y_prime_solutionlist[-1][0], xn)
 
     for step in range(num_steps):
         angle = angle_maker(step, angle_length=xn, num_steps=num_steps)

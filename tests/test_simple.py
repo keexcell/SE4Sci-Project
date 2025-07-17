@@ -51,20 +51,26 @@ def test_simple_trig(solver_to_test):
     Each step will be about 0.0628 rad
     """
     num_steps = 5000
+    x0 = 0.0
+    y0 = 0.0
+    xn = 2 * math.pi
 
     if solver_to_test == "Euler":
         y_prime = EulerSolver(lambda x, y: math.cos(x))  # noqa: ARG005
         rel_tol = 0.005
-        y_prime.solve(0.0, 0.0, 2 * math.pi, num_steps)
+        y_prime.solve(x0, y0, xn, num_steps)
         y_prime.visualize("Euler", "cos(x)", "sin(x)")
 
     elif solver_to_test == "Taylor":
         y_prime = TaylorSolver(lambda x, y: math.cos(x))  # noqa: ARG005
         rel_tol = 0.005  # tol can be diff btwn Taylor and Euler
+        # testing that it errors if you don't give derivatives
+        with pytest.raises(NotImplementedError):
+            y_prime.solve(x0, y0, xn, num_steps)
         y_prime.solve(
-            0.0,
-            0.0,
-            2 * math.pi,
+            x0,
+            y0,
+            xn,
             num_steps,
             [lambda x, y: -math.sin(x), lambda x, y: -math.cos(x)],  # noqa: ARG005
         )
