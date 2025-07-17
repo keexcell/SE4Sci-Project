@@ -60,6 +60,7 @@ def test_simple_trig(solver_to_test):
         rel_tol = 0.005
         y_prime.solve(x0, y0, xn, num_steps)
         y_prime.visualize("Euler", "cos(x)", "sin(x)")
+
     elif solver_to_test == "Taylor":
         y_prime = TaylorSolver(lambda x, y: math.cos(x))  # noqa: ARG005
         rel_tol = 0.005  # tol can be diff btwn Taylor and Euler
@@ -74,6 +75,7 @@ def test_simple_trig(solver_to_test):
             [lambda x, y: -math.sin(x), lambda x, y: -math.cos(x)],  # noqa: ARG005
         )
         y_prime.visualize("Taylor", "cos(x)", "sin(x)")
+
     y_prime_solutionlist = y_prime.iterations
 
     assert type(y_prime_solutionlist) is list

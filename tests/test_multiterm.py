@@ -31,6 +31,7 @@ def test_linear(solver_to_test):
         y_prime.solve(x0, y0, xn, num_steps)
         # test if the solution argument is really optional
         y_prime.visualize("Euler", r"$6x^2 - 3x^2y$")
+
     elif solver_to_test == "Taylor":
         y_prime = TaylorSolver(f)
         rel_tol = 0.005  # tol can be diff btwn Taylor and Euler

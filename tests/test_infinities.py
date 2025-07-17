@@ -27,6 +27,7 @@ def test_divergence(solver_to_test):
         # there's cases where cos = 0 so y = 1/0 and there will be an error
         with pytest.raises(ValueError):
             y_prime.solve(x0, y0, 2 * math.pi, num_steps)
+        # test if it overwrites first .solve with another. this time closed interval
         y_prime.solve(x0, y0, xn, num_steps)
         y_prime.visualize("Euler", "ytan(x)", r"$\frac{1}{cos(x)}$")
 
@@ -55,8 +56,7 @@ def test_divergence(solver_to_test):
             ],
         )
         y_prime.visualize("Taylor", "ytan(x)", r"$\frac{1}{cos(x)}$")
-
-    # test if it overwrites first .solve with another. this time closed interval
+    
     y_prime_solutionlist = y_prime.iterations
     assert math.isclose(y_prime_solutionlist[-1][0], xn)
 
