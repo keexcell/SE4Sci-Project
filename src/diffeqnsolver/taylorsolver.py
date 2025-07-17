@@ -1,8 +1,7 @@
 import math
+import sys
 
 from .solver import Solver
-
-import sys
 
 
 class TaylorSolver(Solver):
@@ -38,9 +37,10 @@ class TaylorSolver(Solver):
 
         try:
             numDerivatives = len(derivatives)
-        except:
-            raise NotImplementedError("""Without derivatives, the Taylor method 
-                                       converges to the Euler method. Please use that solver instead!""")
+        except TypeError:
+            raise NotImplementedError("""Without derivatives, the Taylor method
+                                       converges to the Euler method.
+                                       Please use that solver instead!""") from None
             sys.exit(1)
 
         self.iterations = [(x_0, y_0, self.f(x_0, y_0))]
