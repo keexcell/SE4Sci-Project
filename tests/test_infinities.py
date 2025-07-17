@@ -56,7 +56,7 @@ def test_divergence(solver_to_test):
             ],
         )
         y_prime.visualize("Taylor", "ytan(x)", r"$\frac{1}{cos(x)}$")
-    
+
     y_prime_solutionlist = y_prime.iterations
     assert math.isclose(y_prime_solutionlist[-1][0], xn)
 
