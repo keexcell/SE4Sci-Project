@@ -2,6 +2,8 @@ import math
 
 from .solver import Solver
 
+import sys
+
 
 class TaylorSolver(Solver):
     def __init__(self, func):
@@ -33,9 +35,13 @@ class TaylorSolver(Solver):
                 derivative has 1 index, etc. Expects derivatives as a function
                 of x and y.
         """
-        if len(derivatives) == 0:
-            raise NotImplementedError("""Without derivatives, the Taylor method
-            converges to the Euler method. Please use that solver instead!""")
+
+        try:
+            numDerivatives = len(derivatives)
+        except:
+            raise NotImplementedError("""Without derivatives, the Taylor method 
+                                       converges to the Euler method. Please use that solver instead!""")
+            sys.exit(1)
 
         self.iterations = [(x_0, y_0, self.f(x_0, y_0))]
 
@@ -45,7 +51,7 @@ class TaylorSolver(Solver):
 
         for _ in range(num_steps):
             yp_i = Tn = self.f(x_i, y_i)
-            for i in range(len(derivatives)):
+            for i in range(numDerivatives):
                 Tn += (
                     math.pow(step, i + 1)
                     / (math.factorial(i + 2))
