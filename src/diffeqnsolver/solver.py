@@ -42,5 +42,4 @@ class Solver(abc.ABC):
         plt.legend()
         plt.grid(True)
         plt.show()
-
         print("Plots produced")
