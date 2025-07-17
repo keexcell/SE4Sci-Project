@@ -15,22 +15,22 @@ def test_separable(solver_to_test):
     f(x,y) = y'(x) = 6x^2 - 3x^2y
     expect y(x) = 2 + Ce^{-x^3}
     """
+    def f(x, y):
+            return 6 * (x**2) - 3 * (x**2) * y
+    
     num_steps = 5000
-
     x0 = 0
     y0 = 3
     # this makes C = 1
     xn = 10
 
     if solver_to_test == "Euler":
-        y_prime = EulerSolver(lambda x, y: 6 * (x**2) - 3 * (x**2) * (y))
+        y_prime = EulerSolver(f)
         rel_tol = 0.005
         y_prime.solve(x0, y0, xn, num_steps)
+        y_prime.visualize("Euler", r"$6x^2 - 3x^2y$", r"$2+e^{-x^3}$")
+
     elif solver_to_test == "Taylor":
-
-        def f(x, y):
-            return 6 * (x**2) - 3 * (x**2) * y
-
         y_prime = TaylorSolver(f)
         rel_tol = 0.005  # tolerance can be different between Taylor and Euler
         y_prime.solve(
@@ -47,6 +47,7 @@ def test_separable(solver_to_test):
                 + 9 * (x**4) * f(x, y),
             ],
         )
+        y_prime.visualize("Taylor", r"$6x^2 - 3x^2y$", r"$2+e^{-x^3}$")
 
     y_prime_solutionlist = y_prime.iterations
 
