@@ -1,11 +1,15 @@
-from .solver import Solver
 import math
+
+from .solver import Solver
+
 
 class TaylorSolver(Solver):
     def __init__(self, func):
         super().__init__(func)
 
-    def solve(self, x_0: float, y_0: float, x_n: float, num_steps: int = 100,derivatives=[]):
+    def solve(
+        self, x_0: float, y_0: float, x_n: float, num_steps: int = 100, derivatives=None
+    ):
         """
         Implements the Taylor method to solve functions of the form y'(x) = f(x,y)
         for y(x). Numerical approximations are made for y(x) for x in the range
@@ -27,7 +31,7 @@ class TaylorSolver(Solver):
                 Implicit derivates of the function, given by the user. Must be
                 in order i.e. first derivative has 0 index in array, 2nd
                 derivative has 1 index, etc. Expects derivatives as a function
-                of x and y. 
+                of x and y.
         """
         if len(derivatives) == 0:
             raise NotImplementedError("""Without derivatives, the Taylor method
@@ -37,13 +41,17 @@ class TaylorSolver(Solver):
 
         x_i = x_0
         y_i = y_0
-        step = (x_n-x_0)/num_steps
+        step = (x_n - x_0) / num_steps
 
         for _ in range(num_steps):
             yp_i = Tn = self.f(x_i, y_i)
             for i in range(len(derivatives)):
-                Tn += math.pow(step, i+1)/(math.factorial(i+2)) * derivatives[i](x_i,y_i)
-    
+                Tn += (
+                    math.pow(step, i + 1)
+                    / (math.factorial(i + 2))
+                    * derivatives[i](x_i, y_i)
+                )
+
             x_i += step
 
             y_i += step * Tn

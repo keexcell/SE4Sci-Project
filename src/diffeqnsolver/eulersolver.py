@@ -24,13 +24,11 @@ class EulerSolver(Solver):
                 Number of iterations to perform within the given range.
                 (Default: 100)
         """
-        self.iterations = [
-            (x_0, y_0, self.f(x_0, y_0))
-        ]
+        self.iterations = [(x_0, y_0, self.f(x_0, y_0))]
 
         x_i = x_0
         y_i = y_0
-        step = (x_n-x_0)/num_steps
+        step = (x_n - x_0) / num_steps
         for _ in range(num_steps):
             x_i += step
             y_i += step * self.iterations[-1][2]
