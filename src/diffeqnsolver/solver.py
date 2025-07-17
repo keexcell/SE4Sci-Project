@@ -32,16 +32,16 @@ class Solver(abc.ABC):
 
         # Function Values:
         x_vals, y_vals, y_prime_vals = zip(*self.iterations)
-        if solution is None: 
+        if solution is None:
             label = "y(x)"
-        else: 
+        else:
             label = f"y(x) = {solution}"
 
         plt.figure(figsize=(8, 6))
-        plt.plot(x_vals, y_vals, label = label)
-        plt.plot(x_vals, y_prime_vals, label = "y'(x) = " + function)
-        plt.xlabel('x')
-        plt.ylabel('Values')
+        plt.plot(x_vals, y_vals, label=label)
+        plt.plot(x_vals, y_prime_vals, label="y'(x) = " + function)
+        plt.xlabel("x")
+        plt.ylabel("Values")
         plt.title("Solution to differential equation using " + title + " Method")
         plt.legend()
         plt.grid(True)

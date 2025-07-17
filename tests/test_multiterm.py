@@ -15,9 +15,10 @@ def test_separable(solver_to_test):
     f(x,y) = y'(x) = 6x^2 - 3x^2y
     expect y(x) = 2 + Ce^{-x^3}
     """
+
     def f(x, y):
-            return 6 * (x**2) - 3 * (x**2) * y
-    
+        return 6 * (x**2) - 3 * (x**2) * y
+
     num_steps = 5000
     x0 = 0
     y0 = 3
